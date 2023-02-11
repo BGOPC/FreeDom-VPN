@@ -13,25 +13,39 @@
             <input type="text" id="host" placeholder="Host">
             <input type="text" id="username" placeholder="Username">
             <input type="password" id="password" placeholder="Password">
-            <button type="submit">Connect</button>
+            <button type="submit">Save Info</button>
         </form>
         <div class="server-details">
             <h2 id="status">Status:</h2>
             <p id="message">Please connect to the VPN server</p>
+            <div id="server-info" style="display: none;">
+                <p>Address: <span id="address"></span></p>
+                <p>Port: <span id="port"></span></p>
+                <p>Ping: <span id="ping"></span></p>
+                <p>Username: <span id="show-username"></span></p>
+                <p>Password: <span id="show-password"></span></p>
+            </div>
         </div>
-        <button id="start-stop-btn" disabled>Start</button>
+        <button id="start-stop-btn" disabled>Connect</button>
         <script>
             const { ipcRenderer } = require('electron');
 
             const vpnForm = document.querySelector('#vpn-form');
             const status = document.querySelector('#status');
             const message = document.querySelector('#message');
+            const serverInfo = document.querySelector('#server-info');
+            const address = document.querySelector('#address');
+            const port = document.querySelector('#port');
+            const ping = document.querySelector('#ping');
+            const showUsername = document.querySelector('#show-username');
+            const showPassword = document.querySelector('#show-password');
             const startStopBtn = document.querySelector('#start-stop-btn');
 
             let isConnected = false;
 
             vpnForm.addEventListener('submit', (event) => {
                 event.preventDefault();
+                serverInfo.style.display = 'block';
 
                 status.textContent = 'Status: Connecting';
                 message.textContent = 'Connecting to the VPN server...';
@@ -41,6 +55,10 @@
                 const password = document.querySelector('#password').value;
 
                 ipcRenderer.send('connect-vpn-server', { host, username, password });
+
+                showUsername.textContent = username;
+                showPassword.textContent = password;
+                address.textContent = host;
             });
 
             startStopBtn.addEventListener('click', () => {
@@ -50,31 +68,23 @@
                     vpnForm.style.display = 'block';
                 }
             });
-
-            ipcRenderer.on('vpn-connected', () => {
+            ipcRenderer.on('vpn-server-connected', (event, serverData) => {
                 isConnected = true;
-                vpnForm.style.display = 'none';
+                startStopBtn.textContent = 'Disconnect';
                 status.textContent = 'Status: Connected';
-                message.textContent = `Connected to VPN server: ${host}`;
-                startStopBtn.textContent = 'Stop';
-                startStopBtn.disabled = false;
+                message.textContent = 'Successfully connected to the VPN server';
+                serverInfo.style.display = 'block';
+                port.textContent = serverData.port;
+                ping.textContent = serverData.ping;
             });
 
-            ipcRenderer.on('vpn-disconnected', () => {
+            ipcRenderer.on('vpn-server-disconnected', () => {
                 isConnected = false;
-                vpnForm.style.display = 'block';
-                status.textContent = 'Status: Not Connected';
-                message.textContent = 'Please connect to the VPN server';
-                startStopBtn.textContent = 'Start';
-                startStopBtn.disabled = true;
-            });
-
-            ipcRenderer.on('vpn-connection-error', (event, error) => {
-                console.error(error);
-                vpnForm.style.display = 'block';
-                status.textContent = 'Status: Connection Error';
-                message.textContent = `Error: ${error}`;
-                startStopBtn.disabled = true;
+                startStopBtn.textContent = 'Connect';
+                status.textContent = 'Status: Disconnected';
+                message.textContent = 'VPN connection has been disconnected';
+                serverInfo.style.display = 'none';
+                vpnForm.style.display = 'none';
             });
         </script>
     </body>
