@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <form id="vpn-form">
+        <form id="vpn-form" style="display: none;">
             <h2>VPN Server Details</h2>
             <input type="text" id="host" placeholder="Host">
             <input type="text" id="username" placeholder="Username">
@@ -45,7 +45,6 @@
 
             vpnForm.addEventListener('submit', (event) => {
                 event.preventDefault();
-                serverInfo.style.display = 'block';
 
                 status.textContent = 'Status: Connecting';
                 message.textContent = 'Connecting to the VPN server...';
