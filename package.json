@@ -1,32 +1,37 @@
 {
-    "name": "freedomVPN",
-    "version": "1.0.0",
-    "main": "src/main.js",
-    "description": "An Electron VPN client with SSTP protocol, Made For Iranians",
-    "author": {
-        "name": "BGOPC",
-        "email": "bb8933400@gmail.com",
-        "url": "https://bgopc.github.io"
-    },
-    "scripts": {
-        "start": "electron .",
-        "lint": "eslint ."
-    },
-    "dependencies": {
-    },
-    "devDependencies": {
-    },
-    "homepage":"https://github.com/BGOPC/FreeDom-Vpn",
-    "bugs": {
-        "url":"https://github.com/BGOPC/FreeDom-Vpn/issues",
-        "email": "bb8933400@gmail.com"
-    },
-    "keywords": [
-        "SSTP",
-        "VPN",
-        "Iran",
-        "freedomVPN"
-    ],
-    "license": "MIT",
-    "private": false
+  "name": "freedomVPN",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "description": "An Electron VPN client with SSTP protocol, Made For Iranians",
+  "author": {
+    "name": "BGOPC",
+    "email": "bb8933400@gmail.com",
+    "url": "https://bgopc.github.io"
+  },
+  "scripts": {
+    "start": "electron .",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "electron": "^23.0.0",
+    "@electron/get": "latest",
+    "openvpn-client": "latest"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "homepage": "https://github.com/BGOPC/FreeDom-Vpn",
+  "bugs": {
+    "url": "https://github.com/BGOPC/FreeDom-Vpn/issues",
+    "email": "bb8933400@gmail.com"
+  },
+  "keywords": [
+    "SSTP",
+    "VPN",
+    "Iran",
+    "freedomVPN"
+  ],
+  "license": "MIT",
+  "private": false
 }
