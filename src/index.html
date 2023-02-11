@@ -33,6 +33,9 @@
             vpnForm.addEventListener('submit', (event) => {
                 event.preventDefault();
 
+                status.textContent = 'Status: Connecting';
+                message.textContent = 'Connecting to the VPN server...';
+
                 const host = document.querySelector('#host').value;
                 const username = document.querySelector('#username').value;
                 const password = document.querySelector('#password').value;
@@ -69,8 +72,9 @@
             ipcRenderer.on('vpn-connection-error', (event, error) => {
                 console.error(error);
                 vpnForm.style.display = 'block';
-                status.textContent = 'Status: Error Occurred';
+                status.textContent = 'Status: Connection Error';
                 message.textContent = `Error: ${error}`;
+                startStopBtn.disabled = true;
             });
         </script>
     </body>
