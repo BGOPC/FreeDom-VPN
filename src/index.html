@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>VPN Client</title>
+        <style>
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                width: 50%;
+                padding: 0.5rem;
+                margin: 1rem 0;
+            }
+
+            button {
+                padding: 0.5rem 1rem;
+                margin: 1rem 0;
+            }
+
+            .server-details {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+                margin-top: 2rem;
+            }
+
+            .server-details h2 {
+                margin: 0;
+            }
+
+            .server-details p {
+                margin: 1rem 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <form id="vpn-form">
+            <h2>VPN Server Details</h2>
+            <input type="text" id="host" placeholder="Host">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button type="submit">Connect</button>
+        </form>
+        <div class="server-details">
+            <h2 id="status">Status:</h2>
+            <p id="message">Please connect to the VPN server</p>
+        </div>
+        <button id="start-stop-btn" disabled>Start</button>
+        <script>
+            const { ipcRenderer } = require('electron');
+
+            const vpnForm = document.querySelector('#vpn-form');
+            const status = document.querySelector('#status');
+            const message = document.querySelector('#message');
+            const startStopBtn = document.querySelector('#start-stop-btn');
+
+            let isConnected = false;
+
+            vpnForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const host = document.querySelector('#host').value;
+                const username = document.querySelector('#username').value;
+                const password = document.querySelector('#password').value;
+
+                ipcRenderer.send('connect-vpn-server', { host, username, password });
+            });
+
+            startStopBtn.addEventListener('click', () => {
+                if (isConnected) {
+                    ipcRenderer.send('disconnect-vpn-server');
+                } else {
+                    vpnForm.style.display = 'block';
+                }
+            });
+
+            ipcRenderer.on('vpn-connected', () => {
+                isConnected = true;
+                vpnForm.style.display = 'none';
+                status.textContent = 'Status: Connected';
+                message.textContent = `Connected to VPN server: ${host}`;
+                startStopBtn.textContent = 'Stop';
+                startStopBtn.disabled = false;
+            });
+
+            ipcRenderer.on('vpn-disconnected', () => {
+                isConnected = false;
+                vpnForm.style.display = 'block';
+                status.textContent = 'Status: Not Connected';
+                message.textContent = 'Please connect to the VPN server';
+                startStopBtn.textContent = 'Start';
+                startStopBtn.disabled = true;
+            });
+
+            ipcRenderer.on('vpn-connection-error', (event, error) => {
+                console.error(error);
+                vpnForm.style.display = 'block';
+                status.textContent = 'Status: Error Occurred';
+                message.textContent = `Error: ${error}`;
+            });
+        </script>
+    </body>
+
+</html>

@@ -13,23 +13,13 @@
         "lint": "eslint ."
     },
     "dependencies": {
-        "electron": "^23.0.0"
     },
     "devDependencies": {
-        "@typescript-eslint/eslint-plugin": "^5.51.0",
-        "eslint": "^8.33.0",
-        "eslint-config-google": "^0.14.0",
-        "eslint-config-standard": "^17.0.0",
-        "eslint-config-standard-with-typescript": "^34.0.0",
-        "eslint-plugin-import": "^2.27.5",
-        "eslint-plugin-n": "^15.6.1",
-        "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-promise": "^6.1.1"
     },
     "homepage":"https://github.com/BGOPC/FreeDom-Vpn",
     "bugs": {
         "url":"https://github.com/BGOPC/FreeDom-Vpn/issues",
-        "email": "bb8933400@gmail.com" // My main email btw
+        "email": "bb8933400@gmail.com"
     },
     "keywords": [
         "SSTP",
