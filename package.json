@@ -26,10 +26,16 @@
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^6.1.1"
     },
+    "homepage":"https://github.com/BGOPC/FreeDom-Vpn",
+    "bugs": {
+        "url":"https://github.com/BGOPC/FreeDom-Vpn/issues",
+        "email": "bb8933400@gmail.com" // My main email btw
+    },
     "keywords": [
         "SSTP",
         "VPN",
-        "Iran"
+        "Iran",
+        "freedomVPN"
     ],
     "license": "MIT",
     "private": false
